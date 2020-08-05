@@ -191,12 +191,6 @@ public class LoginActivity extends BaseActivity {
     }
 
     private boolean getAuthenticationCredentials(){
-
-//        if (!isDeviceRegistered()){
-//            loginMessages.setText("Device is Not Registered for Notifications, please Register");
-//            return false;
-//        }
-//        else
         if (usernameEt.getText().length() <= 0){
             Toast.makeText(this, getResources().getString(R.string.username_required), Toast.LENGTH_SHORT).show();
             return false;
