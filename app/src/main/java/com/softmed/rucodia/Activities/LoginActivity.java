@@ -442,7 +442,7 @@ public class LoginActivity extends BaseActivity {
                 @Override
                 public void onResponse(Call<List<ProductsResponse>> call, Response<List<ProductsResponse>> response) {
                     //Here will handle the responce from the server
-                    Log.d("ProductsCheck", response.body()+"");
+                    Log.d("ProductsCheck", new Gson().toJson(response.body()));
 
                     addProductsAsyncTask task = new addProductsAsyncTask(response.body());
                     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -611,15 +611,17 @@ public class LoginActivity extends BaseActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-
-            Log.d("InitialSync", "Products Response size : "+results.size());
-
             for (ProductsResponse mList : results){
-                baseDatabase.productsModelDao().addProduct(DomConverter.getProduct(mList));
+                try {
+                    Log.d("saving product", "Product : " + new Gson().toJson(mList));
+                    baseDatabase.productsModelDao().addProduct(DomConverter.getProduct(mList));
 
-                Log.d(TAG,"Saved products = "+new Gson().toJson(DomConverter.getProduct(mList)));
-                baseDatabase.unitsDao().addUnit(DomConverter.getUnit(mList.getUnitResponses().get(0)));
-                Log.d("InitialSync", "Product  : "+mList.getName());
+                    Log.d(TAG, "Saved products = " + new Gson().toJson(DomConverter.getProduct(mList)));
+                    baseDatabase.unitsDao().addUnit(DomConverter.getUnit(mList.getUnitResponses().get(0)));
+                    Log.d("InitialSync", "Product  : " + mList.getName());
+                }catch (IndexOutOfBoundsException e){
+                    e.printStackTrace();
+                }
             }
 
             return null;
