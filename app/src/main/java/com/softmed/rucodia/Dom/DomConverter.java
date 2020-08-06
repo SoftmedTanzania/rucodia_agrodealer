@@ -1,5 +1,8 @@
 package com.softmed.rucodia.Dom;
 
+import android.util.Log;
+
+import com.google.gson.Gson;
 import com.softmed.rucodia.Dom.entities.Category;
 import com.softmed.rucodia.Dom.entities.Product;
 import com.softmed.rucodia.Dom.entities.SubCategory;
@@ -15,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DomConverter {
+    public final static String TAG = DomConverter.class.getSimpleName();
 
     public static UsersInfo getUserInfo(LoginResponse loginResponse){
         UsersInfo usersInfo = new UsersInfo();
@@ -24,8 +28,6 @@ public class DomConverter {
         usersInfo.setSurname(loginResponse.getSurname());
         usersInfo.setId(loginResponse.getId());
         usersInfo.setUuid(loginResponse.getUuid());
-        usersInfo.setId(loginResponse.getId());
-        usersInfo.setSurname(loginResponse.getUsername());
         try {
             usersInfo.setLevelId(loginResponse.getLevelResponses().get(0).getId());
             usersInfo.setLocationId(loginResponse.getLocationResponses().get(0).getId());
